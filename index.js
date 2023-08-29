@@ -1,5 +1,6 @@
 const express = require('express');
 const request = require('request');
+const axios = require('axios');
 require("dotenv").config();
 
 const app = express();
@@ -14,26 +15,27 @@ app.get('/api', (req, res) => {
   // get request to public espn api
 
   var options = {
-    method: "GET",
-    mode: "cors",
-    credentials: "include",
-    headers: {
-      "Cookie": `SWID={${process.env.REACT_APP_SWID}}`,
-      "Cookie": `espn_s2=${process.env.REACT_APP_ESPN}`,
-      "Content-Type": 'application/json',
+    'url': `${API_URL}`,
+    'method': "get",
+    'headers': {
+      'Cookie': `SWID={${process.env.REACT_APP_SWID}}; espn_s2=${process.env.REACT_APP_ESPN};`
     },
-
+    'withCredentials': 'true'
   }
 
-  fetch(API_URL, options)
-  .then( (result, err) => {
-    if (err) {
-      console.log('error', err)
-    } else {
-      console.log('worked', result);
-      res.send(result)
-    }
+  axios.default.request(options)
+  .then (res => {
+    cosole.log(res);
   })
+  // (API_URL, options)
+  // .then( (result, err) => {
+  //   if (err) {
+  //     console.log('error', err)
+  //   } else {
+  //     console.log('worked', result.json());
+  //     res.send(result)
+  //   }
+  // })
 
 });
 
