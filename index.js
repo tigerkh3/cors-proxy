@@ -13,13 +13,12 @@ app.use((req, res, next) => {
 app.get('/api', (req, res) => {
   // get request to public espn api
 
-  document.cookie = `SWID={${process.env.REACT_APP_SWID}}`;
-  document.cookie = `espn_s2=${process.env.REACT_APP_ESPN}`;
-
   var options = {
     method: "GET",
     credentials: "same-origin",
     headers: {
+      "Cookie": `SWID={${process.env.REACT_APP_SWID}}`,
+      "Cookie": `espn_s2=${process.env.REACT_APP_ESPN}`,
       "Content-Type": 'application/json',
     },
 
