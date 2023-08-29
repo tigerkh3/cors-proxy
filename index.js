@@ -27,7 +27,7 @@ app.get('/api', (req, res) => {
   axios.default.request(options)
   .then (res => {
     console.log(res);
-    res.status(200).send(res);
+    res.sendStatus(200).send(res);
   })
   // (API_URL, options)
   // .then( (result, err) => {
