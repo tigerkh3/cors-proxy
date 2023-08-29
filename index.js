@@ -23,15 +23,16 @@ app.get('/api', (req, res) => {
     },
 
   }
+  res.send("hi")
 
-  fetch(API_URL, options)
-  .then( (result, err) => {
-    if (err) {
-      console.log('error', err)
-    } else {
-      res.send(result)
-    }
-  })
+  // fetch(API_URL, options)
+  // .then( (result, err) => {
+  //   if (err) {
+  //     console.log('error', err)
+  //   } else {
+  //     res.send(result)
+  //   }
+  // })
 });
 
 console.log(API_URL);
