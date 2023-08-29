@@ -15,7 +15,8 @@ app.get('/api', (req, res) => {
 
   var options = {
     method: "GET",
-    credentials: "same-origin",
+    mode: "cors",
+    credentials: "include",
     headers: {
       "Cookie": `SWID={${process.env.REACT_APP_SWID}}`,
       "Cookie": `espn_s2=${process.env.REACT_APP_ESPN}`,
@@ -23,16 +24,17 @@ app.get('/api', (req, res) => {
     },
 
   }
-  res.send("hi")
 
-  // fetch(API_URL, options)
-  // .then( (result, err) => {
-  //   if (err) {
-  //     console.log('error', err)
-  //   } else {
-  //     res.send(result)
-  //   }
-  // })
+  fetch(API_URL, options)
+  .then( (result, err) => {
+    if (err) {
+      console.log('error', err)
+    } else {
+      console.log('worked', result);
+      res.send(result)
+    }
+  })
+
 });
 
 console.log(API_URL);
