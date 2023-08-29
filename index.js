@@ -11,16 +11,28 @@ app.use((req, res, next) => {
 });
 
 app.get('/api', (req, res) => {
-  request(
-    { url: `${API_URL}` },
-    (error, response, body) => {
-      if (error || response.statusCode !== 200) {
-        return res.status(500).json({ type: 'error', message: error.message });
-      }
+  // get request to public espn api
 
-      res.json(JSON.parse(body));
+  document.cookie = `SWID={${process.env.REACT_APP_SWID}}`;
+  document.cookie = `espn_s2=${process.env.REACT_APP_ESPN}`;
+
+  var options = {
+    method: "GET",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": 'application/json',
+    },
+
+  }
+
+  fetch(API_URL, options)
+  .then( (result, err) => {
+    if (err) {
+      console.log('error', err)
+    } else {
+      res.send(result)
     }
-  );
+  })
 });
 
 console.log(API_URL);
