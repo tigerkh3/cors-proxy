@@ -6,13 +6,14 @@ require("dotenv").config();
 const app = express();
 const API_URL = "https://fantasy.espn.com/apis/v3/games/fba/seasons/" + process.env.REACT_APP_SEASON + "/segments/0/leagues/" + process.env.REACT_APP_LEAGUE // Replace this URL with your own
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  next();
-});
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   next();
+// });
 
 app.get('/api', (req, res) => {
   // get request to public espn api
+  console.log(req.cookies);
 
   var options = {
     'url': `${API_URL}`,
@@ -25,7 +26,8 @@ app.get('/api', (req, res) => {
 
   axios.default.request(options)
   .then (res => {
-    cosole.log(res);
+    console.log(res);
+    res.status(200).send(res);
   })
   // (API_URL, options)
   // .then( (result, err) => {
