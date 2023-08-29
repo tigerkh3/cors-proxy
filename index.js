@@ -10,6 +10,10 @@ const API_URL = "https://fantasy.espn.com/apis/v3/games/fba/seasons/" + process.
 //   res.header('Access-Control-Allow-Origin', '*');
 //   next();
 // });
+app.get('/', (req, res) => {
+  res.send("hi")
+}
+)
 
 app.get('/api', (req, res) => {
   // get request to public espn api
@@ -25,9 +29,9 @@ app.get('/api', (req, res) => {
   }
 
   axios.default.request(options)
-  .then (res => {
-    console.log(res);
-    res.sendStatus(200).send(res);
+  .then (result => {
+    console.log(result);
+    res.send(result.data)
   })
   // (API_URL, options)
   // .then( (result, err) => {
