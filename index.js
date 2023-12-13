@@ -59,7 +59,7 @@ app.get('/matchupData', (req, res) => {
   params.append("view", 'mBoxscore')
   var options = {
     'url': `${API_URL}`,
-    'params': {},
+    'params': params,
     'method': "get",
     'headers': {
       'Cookie': `SWID={${process.env.REACT_APP_SWID}}; espn_s2=${process.env.REACT_APP_ESPN};`
