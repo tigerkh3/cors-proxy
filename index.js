@@ -5,17 +5,6 @@ require("dotenv").config();
 
 const app = express();
 const API_URL = "https://fantasy.espn.com/apis/v3/games/fba/seasons/" + process.env.REACT_APP_SEASON + "/segments/0/leagues/" + process.env.REACT_APP_LEAGUE // Replace this URL with your own
-var scoringPeriod = 45;
-var filter = `{"players":{"filterSlotIds":{"value":[0,5,11,1,2,6,3,4]},"filterStatsForCurrentSeasonScoringPeriodId":{"value":[${scoringPeriod}]},"sortAppliedStatTotal":null,"sortAppliedStatTotalForScoringPeriodId":null,"sortStatId":null,"sortStatIdForScoringPeriodId":{"additionalValue":${scoringPeriod},"sortAsc":false,"sortPriority":2,"value":0},"sortPercOwned":{"sortPriority":3,"sortAsc":false},"filterStatus":{"value":["FREEAGENT","WAIVERS"]},"limit":50}}`
-var options = {
-  'url': `${API_URL}`,
-  'params': {},
-  'method': "get",
-  'headers': {
-    'Cookie': `SWID={${process.env.REACT_APP_SWID}}; espn_s2=${process.env.REACT_APP_ESPN};`
-  },
-  'withCredentials': 'true'
-}
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -23,6 +12,8 @@ app.use((req, res, next) => {
 });
 
 app.get('/playerData', (req, res) => {
+  var scoringPeriod = req.query.scoringPeriod;
+  var filter = `{"players":{"filterSlotIds":{"value":[0,5,11,1,2,6,3,4]},"filterStatsForCurrentSeasonScoringPeriodId":{"value":[${scoringPeriod}]},"sortAppliedStatTotal":null,"sortAppliedStatTotalForScoringPeriodId":null,"sortStatId":null,"sortStatIdForScoringPeriodId":{"additionalValue":${scoringPeriod},"sortAsc":false,"sortPriority":2,"value":0},"sortPercOwned":{"sortPriority":3,"sortAsc":false},"filterStatus":{"value":["FREEAGENT","WAIVERS"]},"limit":50}}`
   var options = {
     'url': `${API_URL}`,
     'params': {},
@@ -36,14 +27,12 @@ app.get('/playerData', (req, res) => {
   options.headers['x-fantasy-filter'] = filter;
   axios.default.request(options)
   .then (result => {
-    console.log(result);
+    console.log('requested player data')
     res.send(result.data)
   })
-}
-)
+})
 
 app.get('/leagueData', (req, res) => {
-  console.log(req.params)
   var options = {
     'url': `${API_URL}`,
     'params': {},
@@ -56,14 +45,15 @@ app.get('/leagueData', (req, res) => {
 
   axios.default.request(options)
   .then (result => {
-    console.log(result);
+    console.log('requested league data')
     res.send(result.data)
   })
 })
 
 app.get('/matchupData', (req, res) => {
   // get request to public espn api
-  var filter = `{"schedule":{"filterMatchupPeriodIds":{"value":[${8}]}}}`
+  var matchupPeriod = req.query.matchupPeriod
+  var matchupFilter = `{"schedule":{"filterMatchupPeriodIds":{"value":[${matchupPeriod}]}}}`
   var options = {
     'url': `${API_URL}`,
     'params': {},
@@ -73,13 +63,14 @@ app.get('/matchupData', (req, res) => {
     },
     'withCredentials': 'true'
   }
-  
+
   options.params.view = 'mMatchupScore';
+  options.headers['x-fantasy-filter'] = matchupFilter;
 
 
   axios.default.request(options)
   .then (result => {
-    console.log(result);
+    console.log('requested matchup data')
     res.send(result.data)
   })
 
