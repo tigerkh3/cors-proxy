@@ -64,7 +64,7 @@ app.get('/matchupData', (req, res) => {
     'withCredentials': 'true'
   }
 
-  options.params.view = 'mMatchupScore';
+  options.params.view = ['mMatchupScore', 'mBoxscore'];
   options.headers['x-fantasy-filter'] = matchupFilter;
 
 
