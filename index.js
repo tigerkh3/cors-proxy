@@ -42,9 +42,8 @@ app.get('/playerData', (req, res) => {
 }
 )
 
-app.get('/matchupData', (req, res) => {
-  // get request to public espn api
-  console.log(req.cookies);
+app.get('/leagueData', (req, res) => {
+  console.log(req.params)
   var options = {
     'url': `${API_URL}`,
     'params': {},
@@ -54,6 +53,29 @@ app.get('/matchupData', (req, res) => {
     },
     'withCredentials': 'true'
   }
+
+  axios.default.request(options)
+  .then (result => {
+    console.log(result);
+    res.send(result.data)
+  })
+})
+
+app.get('/matchupData', (req, res) => {
+  // get request to public espn api
+  var filter = `{"schedule":{"filterMatchupPeriodIds":{"value":[${8}]}}}`
+  var options = {
+    'url': `${API_URL}`,
+    'params': {},
+    'method': "get",
+    'headers': {
+      'Cookie': `SWID={${process.env.REACT_APP_SWID}}; espn_s2=${process.env.REACT_APP_ESPN};`
+    },
+    'withCredentials': 'true'
+  }
+  
+  options.params.view = 'mMatchupScore';
+
 
   axios.default.request(options)
   .then (result => {
