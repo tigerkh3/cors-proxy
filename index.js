@@ -73,8 +73,9 @@ app.get('/matchupData', (req, res) => {
     },
     'withCredentials': 'true'
   }
+  
   options.params.view = 'mMatchupScore';
-  options.headers['x-fantasy-filter'] = filter;
+
 
   axios.default.request(options)
   .then (result => {
