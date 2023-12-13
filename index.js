@@ -54,6 +54,9 @@ app.get('/matchupData', (req, res) => {
   // get request to public espn api
   var matchupPeriod = req.query.matchupPeriod
   var matchupFilter = `{"schedule":{"filterMatchupPeriodIds":{"value":[${matchupPeriod}]}}}`
+  var params = new URLSearchParams()
+  params.append("view", 'mMatchupScore')
+  params.append("view", 'mBoxscore')
   var options = {
     'url': `${API_URL}`,
     'params': {},
@@ -64,7 +67,6 @@ app.get('/matchupData', (req, res) => {
     'withCredentials': 'true'
   }
 
-  options.params.view = ['mMatchupScore', 'mBoxscore'];
   options.headers['x-fantasy-filter'] = matchupFilter;
 
 
